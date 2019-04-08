@@ -14,7 +14,7 @@ from nltk.stem import PorterStemmer
 # In[54]:
 
 
-corp = PlaintextCorpusReader("C:\\My Data/Data/Shiva/DWH/Hadoop", "Hadoop_Resume.txt")
+corp = PlaintextCorpusReader("C:\\My Data/", ".txt")
 
 
 # In[44]:
