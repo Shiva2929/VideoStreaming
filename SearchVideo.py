@@ -64,10 +64,24 @@ for search_result in search_response.get("items", []):
 
 #with suppress(YouTubeTranscriptApi.CouldNotRetrieveTranscript):
 
+FinalDict={}
 for eac in videos.keys():
-     eac
-     YouTubeTranscriptApi.get_transcript(eac, languages=['en'])
-
+    eac
+    vid_data = YouTubeTranscriptApi.get_transcript(eac, languages=['en'])
+    #print(len(vid_data))
+    #print(YouTubeTranscriptApi.get_transcript(eac, languages=['en']))
+    if not isinstance(vid_data, type(None)) :
+        #Parse the Array of Dictionary
+        eachTextString=''
+        fullTextString = ''
+        videoKV ={}
+        i =0
+        while i < len(vid_data):
+            eachTextString = ''.join(vid_data[i]['text'])
+            fullTextString = fullTextString +" "+ eachTextString
+            i+=1
+        videoKV[eac]=fullTextString
+        print(videoKV)
 
 #corp = PlaintextCorpusReader("C:\\My Data/Data/Shiva/DWH/Hadoop", ".txt")
 
