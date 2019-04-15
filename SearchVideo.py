@@ -8,16 +8,16 @@ import array as arr
 import os
 import nltk
 import nltk.corpus
+import numpy as np
 from nltk.corpus.reader.plaintext import PlaintextCorpusReader
+import pandas as pd
+from nltk.corpus import stopwords
 
-DEVELOPER_KEY = "AIzaSyBj68_1RaoRoZmqAENBD1Bc28lhccw5d8I"
-
-#DEVELOPER_KEY = "AIzaSyBw8oXRlu4F4_UydxE3eG-78X2RJKZ4Ons"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
 
-argparser.add_argument("--q", help="Search term", default="ALS Ice Bucket Challenge")
+argparser.add_argument("--q", help="Search term", default="Fintech")
 #argparser.add_argument("--trackKind", help="Search term", default="ASR")
 #change the default to the search term you want to search
 argparser.add_argument("--max-results", help="Max results", default=25)
@@ -33,7 +33,7 @@ search_response = youtube.search().list(
   q=options.q,
   type="video",
   part="id,snippet",
-  maxResults= 25,
+  maxResults= 1,
   videoCaption= "closedCaption",
   eventType= "completed",
   #options.max_results
@@ -81,8 +81,39 @@ for eac in videos.keys():
             fullTextString = fullTextString +" "+ eachTextString
             i+=1
         videoKV[eac]=fullTextString
-        print(videoKV)
+        #print(videoKV)
 
+        #text_file = open("C:\\Users/shiva/Desktop/Output.txt", "w")
+        #text_file.write(videoKV.values())
+        #text_file.close()
+
+        textvalue = np.str(videoKV.values())
+
+        # Cleaning of Text
+        replace1 = textvalue.replace("[music]", "")
+        replace2 = replace1.replace("[applause]", "")
+        replace3 = replace2.replace("[", "")
+        replace4 = replace3.replace("]", "")
+        replace5 = replace4.replace('"', "")
+
+
+        #textvalue = textvalue.apply(lambda x: " ".join(x.lower() for x in x.split()))
+        #nltk.download('stopwords')
+        #stop = stopwords.words('english')
+        #textvalue =  textvalue.apply(lambda x: " ".join(x for x in x.split() if x not in stop))
+        #print(textvalue)
+
+# Text Mining
+
+        #df = pd.DataFrame.from_dict({'videoid' : videoKV.keys(), 'text' : videoKV.values()})
+        #df.head()
+        #df.to_stringto_pickle("C:\\Users/shiva/Desktop/Output.txt")
+        #print(df['text'])
+
+#data = pd.read_csv(videoKV)
+       # file2write = open("C:\\Users/shiva/Desktop/VideoData.txt", 'w')
+        #file2write.write(str(videoKV))
+        #file2write.close()
 #corp = PlaintextCorpusReader("C:\\My Data/Data/Shiva/DWH/Hadoop", ".txt")
 
 #text = nltk.Text(corp.words())
